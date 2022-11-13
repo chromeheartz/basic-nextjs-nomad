@@ -54,3 +54,108 @@
   하지만 useState, useEffect와 같은 React method를 쓰고싶다면
   import를 해주어야한다
 */
+
+/*
+  #1.2 Static pre rendering
+
+  next.js의 가장 좋은 기능 중 하나는, 앱에 있는 페이지들이
+  '미리' 렌더링 된다는것이다. 이것들은 정적(static)으로 생성됨
+
+  * noscript
+  noscript는 자바스크립트가 활성화되지 않았을때 실행될 코드이다
+
+  create-react-app과의 차이점
+  
+  ******** client side rendering(CSR) ********
+  * create-react-app은 client-side-render를 하는 앱을 만든다.
+  client-side rendering은 나의 브라우저가 유저가 보는 UI를 만드는 모든것을
+  한다는것이다. 이것은 유저가 보는 HTML소스코드에 들어가 있지않다
+  브라우저가 react.js를 다운받고 코드를 다운받았을때 그때에
+  다른 모든것들을 렌더링하는것이다
+  ** 브라우저가 자바스크립트를 가져와서
+  client-side의 자바스크립트가 모든 UI를 만드는것
+
+  * 네트워크에서 throtling에서 slow 3g로
+  아주 느린 연결을 시도해보면 새로고침을 하면 흰화면만 나오게된다.
+  이 순간에서 브라우저는 자바스크립트코드를 요청하고 있는것
+
+  CSR은 브라우저가 HTML을 가져올때 '비어있는' div로 가져온다는것을 의미한다
+  그 후에 브라우저가 모든 자바스크립트를 요청해서 javascript, react를 실행시키고
+  모든것을 fetch하고 나서야 UI가 보여지는것
+
+  ******** server side rendering(SSR) ********
+
+  next.js에서 똑같이 자바스크립트를 활성화시키지 않고 새로고침을 해보아도
+  화면에 달라짐은없다. 차이는 소스코드에 있는데
+  next.js의 소스코드를 보면 실제 HTML이 들어있다
+  그래서 매우 느린 연결을 하고있거나 자바스크립트가 비활성화 되어있어도
+  적어도 유저는 HTML을 볼수는 있다.
+
+  나의 페이지는 미리 렌더링(pre-rendering) 되는것이다
+  그래서 유저가 요청하면 진짜 HTML을 얻게 되는것
+
+  ******** Hydration ********
+
+  예시를 보기위해 counter를 만들어볼것이다
+  앱의 초기상태를 활용해서 미리 렌더링해서 가져왔다 (pre-rendering)
+  next.js는 초기상태로 pre-rendering을 하는것
+
+  count가 0이기에 HTML도 count에 0의값을 갖는 초기상태로 가져옴
+  처음에 이 페이지가 로딩될때 많은 스크립트를 요청한다.
+  좋은 점은, 페이지가 로딩되었을때 react.js가 넘겨받아서 완벽하게 동작한다
+  지금 보이는것처럼, 페이지를 딱 열면 보게되는것이 HTML인데, react.js가
+  (클라이언트로) 전송되었을때, 이것이 react.js 앱이 되는것이다
+
+  ** react.js를 프론트엔드 안에서 실행하는 이런것을 Hydration이라고 한다
+  왜냐하면 next.js는 react.js를 백엔드에서 동작시켜서 이 페이지를 미리 만드는데
+  이게 component들을 render시키고 렌더링이 끝났을때 그건 HTML이 되고
+  next.js는 그 HTML을 페이지의 소스코드에 넣어주는것
+  그럼 유저는 자바스크립트와 react.js가 로딩되지 않더라도 콘텐츠를 볼 수 있고,
+  로딩 되었을때 기본적으로 이미 존재하는것들과 연결이 되어서
+  일반적인 react.js 앱이 되는것이다
+
+  **** 유저가 웹사이트로 가면 초기 상태의 component로 된 미리 생성된 HTML페이지를 보게되고
+  상호작용이 일어나면 react.js는 그걸받아서 동작한다는것
+
+
+*/
+
+/*
+  #1.3 Routing
+
+  네비게이션 컴포넌트는 Next.js의 컨셉을 알수있게 해줄것이다
+  그냥 a태그로 쓰면 es-lint에서 얘기를 할것이다
+  a 태그를 home페이지로 이동하는데에 사용하지 말라고
+
+  Next.js앱에서 anchor태그를 네비게이팅 하는데에 사용하면 안되는 이유는
+  Next.js 앱 네에서 페이지를 네비게이트 할 때 사용하는
+  특정 컴포넌트가 존재하기 때문이다
+  react.js -> react router link랑 같은 이유
+
+  페이지를 넘어간다면 새로고침 된다.
+  그런것을 원하지 않는것이다. 클라이언트 사이드 네비게이션이 없다는 의미니까
+  * 브라우저가 다른 페이지로 보내기 위해 전체페이지를 새로고침 한다는 뜻 *
+
+
+  그래서 next.js에서는 Link 컴포넌트가 존재한다
+
+  * Link 는 우리에게 next.js어플리케이션 클라이언트 사이드 네비게이션을
+  제공해준다는것
+  13버전부터는 조금 달라져서 Link안에 a가 있다면 legacyBehavior라는
+  prop을 넣어주어야 오류가 나지 않음
+
+  Link자체에 className이나 style을 전달해주어도 전달이 되지않기 때문에
+  우리는 a를 사용하는것이다 Link는 단지 href만을 위한것
+
+  **** Router와 연결할 수 있는 Hook
+
+  useRouter훅을 사용하면된다
+  const router = useRouter();
+  console.log(router)
+   
+  콘솔으로 우리 location의 정보를 확인할 수 있다
+  만약 About에 있는지 Home에 있는지 알고싶다면 anchor에 style으로 
+  확인해볼것이다
+  router.pathname === "/" ? true : false 로 active처럼 구현이 가능
+
+*/
