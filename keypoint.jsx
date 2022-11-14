@@ -208,3 +208,71 @@
 
 
 */
+
+/*
+    #1.5 styles jsx
+
+    styled jsx는 어플리케이션에 styles를 추가하는 또 다른 방식이다
+    styledjsx는 Next.js의 고유의 방식이다
+    <style>이라는 태그에 jsx prop을 넣어주고
+    중괄호와 백틱으로 감싸준다
+
+    평범한 css로 써주고 확인을해보면 class명이 jsx로 들어가는것을 볼 수 있다
+    이전 것들처럼 모듈들이 독립되어있는것을 볼 수 있다
+
+    다른 컴포넌트에서 중복되는 클래스 이름이 있어도 styled jsx를 사용하기 떄문에
+    스타일들은 컴포넌트 내부로 범위가 한정되는것
+
+    ** vudqjagks answkdufdlrlEoansdp
+    ${props.color}로 prop을 가져올수도있다
+
+*/
+
+/*
+    #1.6 Custom App
+
+    GLobal Styles을 추가하기 위해서 Next.js의 컨셉을 알아야한다
+    App Component, App page
+
+    현재 우리는 styled jsx가 컴포넌트에 scoped(한정되어 적용)된다는것을 알고있다
+    현재 Home안에 NavBar컴포넌트가 있는데 Home에서 적용해주는 style은 NavBar에 연결되지 않는다
+    컴포넌트 내로 적용이 되어있기 때문에. 
+
+    Global Styles를 추가하는 방법은 global이라는 prop을 추가하면 된다
+    현재를 기점으로 home으로 가면 a가 적용이 되지만 about으로 넘어가게되면 global 스타일이 적용되지 않는다
+
+    그 이유는
+    Next.js로 작업할때에 고려해야할 부분중 하나인 페이지를 고려하는것이다
+    페이지'별'로 생각.
+    about으로 갔을때 우리는 다른 페이지 안에 있기 때문에
+    렌더링되고있는 컴포넌트 또한 다른것이다
+
+    *** 말그대로 모든 페이지에 global style을 넣고싶다면
+    이제 App Component를 얘기해야할것이다
+
+    App Component는 일종의 어떤 컴포넌트의 blueprint이다
+    next.js가 모든페이지를 렌더링 할 수 있게하는.
+    이것을 커스터마이즈하려면 파일을 만들어야하는데
+    _app.js 무조건 이 이름이여야한다
+
+    모든페이지들이 렌더링되기전에 _app를 먼저 확인하고 렌더링한다
+    _app.js에 넣어둔 blueprint를 기반으로
+    ** 어떻게 페이지가 있어야하는지 어떤 어떤 컴포넌트가 어떤 페이지에 있어야만하는지
+
+    그 안의 함수 이름을 원하는대로 적어주고
+    prop을 리턴해줄것이다
+    next.js는 _app.js를 자동적으로 불러낸다(프레임워크는 내 코드를 불러오는것)
+    nxt.js는 이 함수를 부를것이다 두개의 prop과 함께
+    하나는 Component, 하나는 pageProps이다. 이것은 정해져있음
+
+    만약 about을 렌더링하길 원하면 next.js는 about을 가져다가 Component자리에 넣어줄것이다
+    무엇을 리턴하던 페이지와함께 추가로 작성한것을 리턴해줄것이다
+    return <Component {...pageProps} />
+
+    ** next.js로 앱을 만들때에는 globals.css를 import할 수없다
+    커스텀 App이외의 파일들로부터는 할 수 없다고나옴
+    임포트하기를 원한다면 반드시 module 이어야만한다
+
+    하지만 만약 커스텀 메ㅔzㅓㅁ포넌트가 있는곳에서라면 globals.css를 임포트하는것이 가능
+
+*/
