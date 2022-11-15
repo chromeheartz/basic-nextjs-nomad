@@ -276,3 +276,51 @@
     하지만 만약 커스텀 메ㅔzㅓㅁ포넌트가 있는곳에서라면 globals.css를 임포트하는것이 가능
 
 */
+
+/*
+  #1.7 Recap
+
+  Rehydration
+  next.js가 백엔드상에서 react.js를 돌리고 있고
+  next.js가 페이지를 pre-grenerate(사전생성)할것이고 그것은 HTML페이지가 된다
+  유저가 그 웹사이트에 들어갈때 HTML을 보게된다
+  백지화면이라든가 로딩스테이지는 볼 수 없다
+
+  유저가 모든 자바스크립트를 다운로드하면 react.js가 주도권을 가져와서 
+  일반적으로 동작하는것
+
+  ** next.js는 페이지들을 사전생성한다 
+*/
+
+/*
+  #2.0 Patterns
+
+  많은 사람들이 흔하게 이용하는 패턴을 사용할것이다
+  custom app component를 사용해서 layout 패턴을 만들것
+  NavBar 옆에 div를 만들어서
+  children을 넣어볼것이다
+
+  children은 react.js가 제공하는 prop
+  하나의 component안에 다른 component를 넣을 때에 사용한다
+
+  children이란 _app에서
+  <Component {...pageProps} />
+  이부분을 말하는것이 된다
+
+  _app에서 footer나 뭐든 넣게되면
+  layout에서 children으로 받아와서 보여지게 되는것이다
+
+  ** 패키지
+
+  import Head from "next/head";
+  app의 head부분을 구현하기 위해 nextjs에서 제공하는 패키지를 임포트
+  create-react-app이였다면 react-helmet같은것을 가져와야한다
+
+  그 말은 별개인 새로운 컴포넌트 , 오류가 생기기 쉽다는것인데
+  next js의 경우는 제공을 하기 때문에 좀 더 발생률이 적다
+
+  현재 Head의 title을 Home과 About 다르게 바꾸어주었는데
+  복붙해서 다시 쓰고싶지 않으니 다른 방법을 찾아본다
+
+  컴포넌트안에 Seo.js를 만들어서 관리
+*/
