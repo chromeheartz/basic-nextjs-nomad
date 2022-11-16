@@ -481,3 +481,51 @@
   보내주면 reactjs가 props를 가져와서 그것을 가지고 result array를 뽑아주는것이다
 
 */
+
+/*
+  #2.5 Dynamic Route
+
+  현재는 Home과 About만 있는데
+  이제 우리가 할것은 URL에 변수를 넣는것이다
+  (영화로 치면 상세페이지로 넘어가도록)
+
+  /movies/:id 처럼 하는 create-react-app과는 다르다
+  nextjs에는 router가 없기 때문
+
+  * 폴더랑 파일의 이름만을 가지고 해볼것이다
+
+  전체를 보여주고싶다면 movies폴더에 all을 만들어볼것이다 이것은
+  movies/all URL으로 들어오면 보일것이다
+
+  만약 /movies 라고 하고싶다면 새로운 파일을 만들겠지만
+
+  movies > index.js || all.js
+  이런식으로 하게되면 index는 
+  /movies에 매핑될것이고 
+  /movies/all에는 all.js가 매핑될것이다
+
+  Nested Router(중첩라우터)같은것이다
+
+  우리가 할것은 폴더를 만들어서 파일만 만들어주면된다
+  페이지가 하나라면 폴더를 만들어주지 않아도 된다
+
+  about처럼.
+
+  우리는 이제 영화의 id를 넘겨받고싶다
+
+  ** next js에게 이 URL은 변수가 필요하다고 알려줄수있는 방법
+
+  파일을 하나 만들고 대괄호안에다가 우리가 사용하고자하는
+  변수명을 적어주면된다
+  이렇게하면 페이지가 만들어지는데
+  유저가 /movies/11111121이렇게 했을때 나오는 페이지가 되는것이다
+  이게 URL에 변수를 넣는 방법이다
+  Dynamic URL
+
+  router를 콘솔로 찍어보았는데
+  query라는 것이 있고 그 property에 들어있는 객체의
+  키는 파일명에 쓰인 변수명과 동일하다
+  
+
+
+*/
