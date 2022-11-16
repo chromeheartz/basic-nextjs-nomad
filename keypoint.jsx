@@ -337,8 +337,6 @@
   img태그가아닌 Image라는 nextjs에서 지원하는 것을 사용하라고 나온다
   하지만 image component는 로컬,원격 이미지에서 복잡해질수도있으니 지금은 미사용
 
-  ***** Nextjs를 이용해서 API Keys 숨기기
-
   ()() 를 작성하는 부분이 궁금해서 찾아봤는데, 
   IIFE (즉시 실행 함수 표현, Immediately Invoked Function Expression) 
   이라고 찾았습니다. 
@@ -346,6 +344,74 @@
   IIFE 내부안으로 다른 변수들이 접근하는 것을 막을 수 있는 방법이라고 설명되어 있습니다.
   두번째 괄호는 즉시 실행 함수를 생상하는 괄호이고,
   이를 통해 자바스크립트 엔진은 함수를 즉시 해석해서 실행한다고 설명되어 있습니다.
+
+
+*/
+
+/*
+  #2.2 Redirect and Rewrite
+
+  poster_path같은것이 있는데 이것은 API가 가진 정보에 있다
+  전체 URL은 아님. 먼저 movie DB에서 image서버같은 ㅕ끼을 써서 요청하면
+  response에 들어오게됨
+
+  ***** Nextjs를 이용해서 API Keys 숨기기
+
+  사람들이 키를 알면 남용할수있꼬 다른사람이 사용하면
+  사용에 제한이 있을수 있으니 숨겨볼것이다
+
+  네트워크쪽으로보면 우리가 request한 URL이 보일것이다
+  그쪽에 보면 API KEY가 보이고있는데 그것을 숨겨볼것이다
+
+  ****** redirect & rewrite
+
+  request에 mask를 씌우는것 같은 redirect와 rewrite를 해볼것이다
+
+  next.js configuration파일을 열어서 설정해보자
+
+  *** redirect ***
+
+  API Key를 숨기지 않는 redirect가 있다
+
+  next.js가 redirection을 허용한다
+  서버가 실행되고 clent랑 server가 있다
+  원한다면 항상 쓰는것처럼 redirect가 가능하다
+
+  async redirects함수를 만든다(array를 return해줌)
+  이 array는 obj를 가질것이다
+  1- source 를 찾는다 (유저가 어디론가 이동한다면)
+  2- destination(어디론가 이동할 위치)
+  3- permanent(영구적) 이 redirection이 영구적인지 아닌지에 따라서
+  브라우저나 검색엔진이 이 정보를 기억하는지 여부가 결정된다
+
+  우리의 website이내에서든 바깥으로든 redirect할 수 있다
+  source: "/old-blog/:id",
+  destination: "/new-blog/:id",
+  만약 이 두개 뒤에 *를 넣어주면 그 뒤에들어가는 모든것을 catch해서
+  redirect해준다
+
+  *** rewrites ***
+
+  rewrites은 유저를 redirect시키기는 하지만
+  URL은 변하지 않는다
+
+  예를들어 index에서 fetch를 할때 API_KEY를 숨기고싶다
+  api키를 가져와서 config에서 선언해주고
+  destination을 fetch할 주소를 넣어놓는다
+
+  그렇게 되면 
+  redirect와 비슷한데 유저가 URL변화를 보지 못한다
+  즉, API키를 보지 못하는것
+
+  fetch함수를 /api/movies로 하게 되면 잘 작동된다
+  fetch를 하는데 next.js가 이 request를 masking하는것이다
+
+  localhost:3000/api/movies 로 들어가보면
+  우리가 fetch를 했을때 얻을 정보들이 뜨는데
+  우리 서버 뒤에 mask되어있다
+
+  env로 한번 더 숨겨주어도 좋다
+  이렇게 하면 가짜 fetching URL을 가지게 된다
 
 
 */
