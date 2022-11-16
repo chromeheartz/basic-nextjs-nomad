@@ -415,3 +415,69 @@
 
 
 */
+
+/*
+  #2.3 Server Side Rendering
+
+  nextjs의 function인데 이것은 우리에게 선택권을 준다
+  우리 페이지가 오직 'server side render'만 할지 
+
+  현재 우리가 reload를 하면
+  nextjs가 이 page를 html형태로 export하던지
+  pre render하는것을 알고있따
+
+  우리는 html이 우리 app의 초기 상태인것도 안다
+  그러니까 loading같은것도 기대할 수 있다
+
+  현재는 로딩이 보이게 된느데 그게 싫을수 있다
+  *** 예를들어 fetch라던지 server에서 일어나는 data관련된 작업을
+  모두 한 다음에 API가 완료되었을 때 비로소 페이지를 render하려고 할것이다
+
+  ***** get server side props
+  간단히 getServerSideProps를 xport해주면 된다
+  이름은 다른것으로 바꾸면 안된다
+
+  이 자리에 어떤 코드를 쓰던지 간에 그 코드는 server에서 돌아간다
+  client가 아님
+
+  이것을 이용해서 API키를 숨기기도 가능
+  여기에 API KEY를 쓰면 절대 client에게 보이지 않는다
+  서버에서만 실행되기 때문에
+
+  이 안에 모든 async를 넣고 
+  object를 하나 return할것인데
+  props라는 key를 가지고 있고 우리는 결과를 그 안에 넣을것이다
+
+  지금 한것은 getServerSideProps라는 function을 만든것
+  props안에는 원하는 데이터를 넣을수있다
+
+  이 데이터는 어디서 가져올까 Home({results})로 받아주면된다
+
+  ***** 
+  getServerSideProps는 server에서 실행되고
+  우리가 무엇을 return하던지 props로써 page에 주게 된다
+
+  이제 원한다면 server side를 통해 props를 page로 보낼수있다
+  그래서 _app에서 pageProps가 필요한것이다
+
+  fetch할때에 그냥 /api/movie하면 에러가 나는데
+  absolute URL에서만 지원된다고 하는데
+  api/movies는 프론트에서 작동하고 서버에서는 작동하지 않기때문에
+  프론트에는 이미 브라우저 URL이 있어서 그것을 넣어주면된다
+
+  ***** 이제 선택을 할때에 잘 정해야함
+
+  항상 server side rendering을 할것인가
+  즉, 데이터가 유효할때 화면이 보여지게 되는것이 좋은지
+
+  loading화면을 보여준 다음에 데이터를 받는것이 좋은지
+
+  *** 
+  어느 시점에 react.js가 프론트의 주도권을 가져올것이다(클라이언트 사이드에서)
+  next.js가 props의 data를 주고 있다
+  모든 props movies들이 보이고 이것은 백엔드에서 받아왔다
+
+  여기서 next.js의 역할은 백엔드에서 받아온 data를 return해서 NEXT_DATA쪽에
+  보내주면 reactjs가 props를 가져와서 그것을 가지고 result array를 뽑아주는것이다
+
+*/
