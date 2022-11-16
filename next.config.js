@@ -9,7 +9,7 @@ const nextConfig = {
       {
         source: "/old-blog/:path*",
         destination: "/new-blog/:path*",
-        permanent: false
+        permanent: false,
       },
     ];
   },
@@ -17,10 +17,14 @@ const nextConfig = {
     return [
       {
         source: "/api/movies",
-        destination: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
-      }
-    ]
-  }
+        destination: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`,
+      },
+      {
+        source: "/api/movies/:id",
+        destination: `https://api.themoviedb.org/3/movie/:id?api_key=${API_KEY}&language=en-US&page=1`,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

@@ -1,10 +1,23 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import Seo from "../components/Seo";
 
 export default function Home({ results }) {
-  const [movies, setMovies] = useState([]);
-  useEffect(() => {}, []);
+  const router = useRouter();
+
+  const onClick = (id, title) => {
+    router.push(
+      {
+        pathname: `/movies/${id}`,
+        query: {
+          title,
+        },
+      },
+      `movies/${id}`
+    );
+  };
 
   return (
     <div className="container">
@@ -12,9 +25,26 @@ export default function Home({ results }) {
       {/* movies가 존재하지않으면 동작 안함 */}
       {results?.map((movie) => {
         return (
-          <div className="movie" key={movie.id}>
+          <div
+            onClick={() => onClick(movie.id, movie.original_title)}
+            className="movie"
+            key={movie.id}
+          >
             <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
-            <h4>{movie.original_title}</h4>
+            <h4>
+              <Link
+                href={{
+                  pathname: `/movies/${movie.id}`,
+                  query: {
+                    title: movie.original_title,
+                  },
+                }}
+                as={`movies/${movie.id}`}
+                legacyBehavior
+              >
+                <a>{movie.original_title}</a>
+              </Link>
+            </h4>
           </div>
         );
       })}
@@ -44,10 +74,12 @@ export default function Home({ results }) {
 }
 
 export async function getServerSideProps() {
-  const { results } = await (await fetch("http://localhost:3000/api/movies")).json();
+  const { results } = await (
+    await fetch("http://localhost:3000/api/movies")
+  ).json();
   return {
     props: {
       results,
-    }
-  }
+    },
+  };
 }
