@@ -592,5 +592,72 @@
   ** 문제는 홈페이지를 거치지않고 상세페이지로 넘어갈때 존재한다
   ** LINK에서도 똑같이 구현해줄수있다
 
+  <Link
+    href={{
+      pathname: `/movies/${movie.id}`,
+      query: {
+        title: movie.original_title,
+      },
+    }}
+    as={`movies/${movie.id}`}
+    legacyBehavior
+  >
+
+
+*/
+
+/*
+  #2.7 Catch All
+
+  catch-all URL이라는 것을 만들어볼것이다
+  무엇이든 캐치해내는 URL이라느 뜻이다
+
+  SEO에 좋도록 영화이미지를 넣어볼것이다
+
+  [id].js를 [...id].js로 만들게되면
+  영화이름이 id앞에 들어가도 상세페이지로 접근이 가능해진다
+  router를 찍어보면
+  query에 id가 string이 아닌 
+  배열으로 들어가있게 된다
+
+  기존에 상세 페이지로 넘어가는 두군데의 동작을
+  ${title}/${id}로 바꾸어주면 상세페이지에서 
+  ES6문법을 활용해 쓸수있다
+
+  const [title, id] = router.query.params;
+  우리는 params가 2개의 element를 가지는 배열이라는것을 알기때문에 
+  이런식으로 풀어준다
+
+  하지만 이제 새로고침을 하거나 시크릿모드로
+  home을 거치지 않고 들어오게되면
+
+  ** TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator)) **
+  이런오류가 나오는데
+  이 페이지가 백엔드에서 pre-render되기 떄문이다
+  server에서 미리 렌더링 되는데 server에는 router.query.params가 아직 존재하지 않음
+  || [] 를 넣어줘서 에러를 해결할 수 있지만 그렇게되면
+  소스코드에는 title이 안나오게 된다 이유는
+  client side rendering을 하기 떄문
+
+  원한다면 getserverSideProps를 사용해서 할수도있다 
+  그럼 request에 대한 정보나 영화 제목을 가질수있을것이다
+
+  *** nextjs가 server-side context를 제공해준다
+  매개변수에 ctx를 넣어놓고 콘솔에 찍어보면
+  params가 server에 들어있는것을 알 수 있다.
+
+  ctx 안에 이런구조로 있기때문에
+  params: { params: [ 'Black Panther: Wakanda Forever', '505642' ] },
+  비구조화 할당으로
+  {params : { params }}로 가져온다
+  return 객체에 props로 넣어주고 받아와서
+
+  const [title, id] = params || []; 이렇게 바꾸어주면된다
+  이렇게하면 백엔드에서 가져온 데이터를 확인할 수 있다
+
+  컴포넌트내부에서 router를 사용하면 front에서만 실행이 되는데 (클라이언트 사이드에서만 실행)
+  지금은 API데이터에서 fetch해오지 않고 getServerSidePRops에서
+  URL정보를 가져왔다
+  
 
 */
